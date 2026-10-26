@@ -1,0 +1,13 @@
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary Office files
+~$*
+
+# Test/export artifacts
+*.log
+*.tmp
+screenshots/

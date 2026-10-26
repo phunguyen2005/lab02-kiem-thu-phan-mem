@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "Lab02",
+    "description": "Buổi 2 – Bài tập thực hành API Postman. Chạy lần lượt 3 requests; chụp Test Results từ Postman thật.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - users/1 - kiểm thử chuẩn",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users/1",
+        "description": "Dự kiến HTTP 200, có id=1 và email."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Mã trạng thái là 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Thời gian phản hồi dưới 1000 ms\", () =>",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000));",
+              "pm.test(\"Người dùng có id = 1 và có email\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.id).to.eql(1);",
+              "    pm.expect(body.email).to.include(\"@\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "02 - users/9999 - giữ test cũ để quan sát FAIL",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users/9999",
+        "description": "Dự kiến HTTP 404, vì vậy 2 assertions kiểm tra user/1 thất bại là đúng khi giả định không phù hợp."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Mã trạng thái là 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Thời gian phản hồi dưới 1000 ms\", () =>",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000));",
+              "pm.test(\"Người dùng có id = 1 và có email\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.id).to.eql(1);",
+              "    pm.expect(body.email).to.include(\"@\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "03 - users/9999 - kiểm thử viết lại đúng",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users/9999",
+        "description": "Dự kiến 404 và không có thuộc tính id/email."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Người dùng không tồn tại trả HTTP 404\", () => {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Không trả về thông tin người dùng\", () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an(\"object\");",
+              "    pm.expect(body).to.not.have.property(\"id\");",
+              "    pm.expect(body).to.not.have.property(\"email\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ]
+}
